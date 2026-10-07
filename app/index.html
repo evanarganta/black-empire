@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>image editor! black emperor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">!</span><span>black empire</span></div>
+      <div class="top-actions">
+        <button class="button" id="open-button" type="button">open image</button>
+        <button class="button primary" id="export-button" type="button" disabled>export image</button>
+        <label class="export-format" for="export-format">
+          <select class="format-select" id="export-format" aria-label="Export format">
+            <option value="image/png">.PNG</option>
+            <option value="image/jpeg">.JPG</option>
+            <option value="image/webp">.WebP</option>
+          </select>
+        </label>
+      </div>
+    </header>
+    <main class="workspace">
+      <section class="stage" aria-label="Image preview">
+        <div class="stage-head"><span class="photo-name" id="photo-name">No image loaded</span><span class="photo-meta" id="photo-meta"></span></div>
+        <div class="canvas-wrap" id="drop-zone">
+          <canvas id="preview" aria-label="Edited image preview"></canvas>
+          <div class="empty-state" id="empty-state">
+            <h1>Drop a photo here or choose a file.</h1>
+            <p>Your images stay on this device.</p>
+            <button class="button" id="empty-open" type="button">Choose an image!</button>
+          </div>
+        </div>
+        <div style="height: 1rem">  </div>
+      </section>
+      <aside class="controls" aria-label="Photo adjustments">
+        <div class="controls-head"><h2>Adjustments</h2><button class="text-button" id="reset-button" type="button">Reset all</button></div>
+        <div id="slider-groups"></div>
+      </aside>
+    </main>
+  </div>
+  <input id="file-input" type="file" accept="image/*">
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js" defer></script>
+</body>
+</html>
