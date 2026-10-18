@@ -11,9 +11,12 @@
         ]},
         { title: "Color", sliders: [
           ["saturation", "Saturation", -100, 100, 0],
-          ["temperature", "Temperature", -100, 100, 0]
+          ["vibrance", "Vibrance", -100, 100, 0],
+          ["temperature", "Temperature", -100, 100, 0],
+          ["tint", "Tint", -100, 100, 0]
         ]},
-        { title: "Detail", sliders: [
+        { title: "Effects", sliders: [
+          ["texture", "Texture", -100, 100, 0],
           ["clarity", "Clarity", -100, 100, 0],
           ["sharpness", "Sharpness", 0, 100, 0]
         ]},
@@ -25,9 +28,27 @@
         ]}
       ];
       const defaults = Object.fromEntries(definitions.flatMap(group => group.sliders.map(([key, , , , value]) => [key, value])));
+      const presets = {
+        cinematic: {
+          exposure: -20,
+          contrast: 15,
+          highlights: -35,
+          shadows: -20,
+          whites: -15,
+          blacks: -10,
+          temperature: -4,
+          tint: -5,
+          vibrance: -15,
+          saturation: -8,
+          texture: 10,
+          clarity: -5,
+          grain: 25,
+          vignette: -8
+        }
+      };
       const values = { ...defaults };
       const elements = {};
-      for (const id of ["app", "file-input", "open-button", "empty-open", "export-button", "export-format", "reset-button", "preview", "empty-state", "photo-name", "photo-meta", "preview-note", "drop-zone", "slider-groups", "toast"]) {
+      for (const id of ["app", "file-input", "open-button", "empty-open", "export-button", "export-format", "reset-button", "apply-preset-button", "preview", "empty-state", "photo-name", "photo-meta", "preview-note", "drop-zone", "slider-groups", "toast"]) {
         const element = document.getElementById(id);
         elements[id] = element;
         elements[id.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] = element;
@@ -89,7 +110,10 @@
         const key = slider.dataset.key;
         const number = Number(slider.value);
         const out = document.getElementById(`value-${key}`);
-        out.value = number > 0 && slider.min < 0 ? `+${number}` : String(number);
+        const formatted = key === "exposure"
+          ? `${number > 0 ? "+" : ""}${(number / 100).toFixed(2)}`
+          : number > 0 && slider.min < 0 ? `+${number}` : String(number);
+        out.value = formatted;
         out.textContent = out.value;
         const range = Number(slider.max) - Number(slider.min);
         slider.style.setProperty("--fill", `${((number - Number(slider.min)) / range) * 100}%`);
@@ -145,8 +169,11 @@
         const contrast = values.contrast / 100;
         const saturation = 1 + values.saturation / 100;
         const clarity = values.clarity / 100 * 0.7;
+        const texture = values.texture / 100 * 0.7;
         const sharpness = values.sharpness / 100 * 0.9;
         const temperature = values.temperature / 100;
+        const tint = values.tint / 100;
+        const vibrance = values.vibrance / 100;
         const grainStrength = values.grain / 100 * 32;
         const grainScale = 1 + (values.grainSize - 1) / 99 * 7;
         const roughness = values.roughness / 100;
@@ -166,35 +193,43 @@
             + values.highlights * 0.42 * highlightMask
             + values.blacks * 0.32 * blackMask
             + values.whites * 0.32 * whiteMask;
-          r += tonalShift + temperature * 22;
-          g += tonalShift;
-          b += tonalShift - temperature * 22;
+          r += tonalShift + temperature * 22 + tint * 14;
+          g += tonalShift - tint * 28;
+          b += tonalShift - temperature * 22 + tint * 14;
           r = (r - 127.5) * (1 + contrast) + 127.5;
           g = (g - 127.5) * (1 + contrast) + 127.5;
           b = (b - 127.5) * (1 + contrast) + 127.5;
           const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-          r = luminance + (r - luminance) * saturation;
-          g = luminance + (g - luminance) * saturation;
-          b = luminance + (b - luminance) * saturation;
+          const colorRange = (Math.max(r, g, b) - Math.min(r, g, b)) / 255;
+          const vibranceMultiplier = 1 + vibrance * (1 - colorRange);
+          const colorSaturation = saturation * vibranceMultiplier;
+          r = luminance + (r - luminance) * colorSaturation;
+          g = luminance + (g - luminance) * colorSaturation;
+          b = luminance + (b - luminance) * colorSaturation;
           pixels[p] = Math.max(0, Math.min(255, r));
           pixels[p + 1] = Math.max(0, Math.min(255, g));
           pixels[p + 2] = Math.max(0, Math.min(255, b));
           baseLum[i] = 0.2126 * pixels[p] + 0.7152 * pixels[p + 1] + 0.0722 * pixels[p + 2];
         }
 
-        if (clarity || sharpness) {
+        if (clarity || texture || sharpness) {
           const original = new Uint8ClampedArray(pixels);
-          for (let y = 1; y < h - 1; y++) {
-            for (let x = 1; x < w - 1; x++) {
+          const border = texture ? 2 : 1;
+          for (let y = border; y < h - border; y++) {
+            for (let x = border; x < w - border; x++) {
               const i = y * w + x;
               const p = i * 4;
               const average = (baseLum[i - w - 1] + baseLum[i - w] + baseLum[i - w + 1]
                 + baseLum[i - 1] + baseLum[i] + baseLum[i + 1]
                 + baseLum[i + w - 1] + baseLum[i + w] + baseLum[i + w + 1]) / 9;
               const detail = baseLum[i] - average;
+              const textureDetail = texture
+                ? baseLum[i] - (baseLum[i - 2 * w] + baseLum[i + 2 * w]
+                  + baseLum[i - 2] + baseLum[i + 2] + baseLum[i]) / 5
+                : 0;
               const amount = clarity + sharpness;
               for (let channel = 0; channel < 3; channel++) {
-                pixels[p + channel] = original[p + channel] + detail * amount;
+                pixels[p + channel] = original[p + channel] + detail * amount + textureDetail * texture;
               }
             }
           }
@@ -280,6 +315,14 @@
         Object.assign(values, defaults);
         for (const slider of elements["slider-groups"].querySelectorAll('input[type="range"]')) {
           slider.value = defaults[slider.dataset.key];
+          updateSlider(slider);
+        }
+        queueRender();
+      });
+      elements.applyPresetButton.addEventListener("click", () => {
+        Object.assign(values, defaults, presets.cinematic);
+        for (const slider of elements["slider-groups"].querySelectorAll('input[type="range"]')) {
+          slider.value = values[slider.dataset.key];
           updateSlider(slider);
         }
         queueRender();

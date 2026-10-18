@@ -43,6 +43,10 @@
     .controls-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; }
     .controls-head h2 { margin: 0; font-size: 13px; font-weight: 650; }
     .text-button { padding: 4px 0 4px 8px; border: 0; background: none; color: var(--accent); cursor: pointer; font-size: 11px; }
+    .preset-panel { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 15px; padding: 12px; border: 1px solid var(--line); background: var(--panel-2); }
+    .preset-panel h3 { margin: 0 0 5px; font-size: 12px; font-weight: 600; }
+    .preset-panel p { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .preset-button { flex: 0 0 auto; }
     .group { padding: 16px 0 17px; border-top: 1px solid var(--line); }
     .group-title { margin: 0 0 15px; color: #a5a69e; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
     .slider-row { margin: 0 0 15px; }
@@ -116,6 +120,10 @@
     .stage-foot { min-height: 34px; color: #9c9794; }
     .kbd { padding: 2px 5px; border-color: #4a4644; border-radius: 0; color: #bcb7b3; }
     .controls { padding: 19px 18px 26px; border-left-color: #3b3938; background: #292726; }
+    .preset-panel { border-color: #403d3b; background: #302d2c; }
+    .preset-panel h3 { color: #e2deda; }
+    .preset-panel p { color: #aaa5a2; }
+    .preset-button { border-color: #514e4c; }
     .controls-head { padding-bottom: 16px; }
     .controls-head h2 { font-size: 14px; font-weight: 600; }
     .text-button { color: #e04a5d; font-size: 11px; }
