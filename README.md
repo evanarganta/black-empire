@@ -1,7 +1,7 @@
 <p align="center">
-  <img src="https://img.shields.io/github/license/evanarganta/discombobulator?style=flat" alt="License" />
-  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white" alt="HTML5" />
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white" alt="CSS3" />
+  <img src="https://img.shields.io/badge/CC0-FFFFFF?logo=creativecommons&logoColor=#ED592F" alt="License" />
+  <img src="https://img.shields.io/badge/HTML-%23E34F26.svg?logo=html5&logoColor=white" alt="HTML" />
+  <img src="https://img.shields.io/badge/CSS-639?logo=css&logoColor=fff" alt="CSS" />
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript" />
   <br>​
 </p>
