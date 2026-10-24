@@ -10,7 +10,7 @@
 
 ### (godspeed you!) black empire
 
-<strong>https://black-empire.vercel.app/</strong><br><br>
+<strong>https://black-empire-app.vercel.app/</strong><br><br>
   
 Adjust, discombobulate, and export your image one at a time — all running locally in browser memory.
 
