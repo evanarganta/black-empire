@@ -12,14 +12,10 @@
 
 <strong>https://black-empire.vercel.app/</strong><br><br>
   
-(Or, alternatively, clone and run `app/index.html` in your browser.)
+Adjust, discombobulate, and export your image one at a time — all running locally in browser memory.
 
 <br>
 
 <img width="100%" alt="black empire" src="https://github.com/user-attachments/assets/36e5f820-6e7e-4f32-9583-3ca7018af4e3" />
 
-<br><br>
-
-Adjust, discombobulate, and export your image one at a time — all running locally in browser memory.
-
-</div>
+<br>
