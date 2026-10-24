@@ -1,7 +1,7 @@
 # black empire
 
-a small, local photo editor.
+local photo editor and discombobulator.
 
-open `app/index.html` in a browser, choose an image, make your adjustments, and export as png, jpg, or webp.
+open `app/index.html` in a browser to make adjustments, inject chaos glitch effects, and export as png, jpg, or webp.
 
-your images stay on your device.
+all processing runs locally in browser memory.

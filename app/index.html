@@ -3,16 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>image editor! black emperor</title>
+  <title>black empire</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app" id="app">
     <header class="topbar">
-      <div class="brand"><span class="brand-mark" aria-hidden="true">!</span><span>black empire</span></div>
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">!</span>
+        <span>black empire</span>
+      </div>
       <div class="top-actions">
-        <button class="button" id="open-button" type="button">open image</button>
-        <button class="button primary" id="export-button" type="button" disabled>export image</button>
+        <button class="button" id="open-button" type="button">open</button>
+        <button class="button" id="chaos-button" type="button">chaos</button>
+        <button class="button" id="reset-button" type="button">reset</button>
+        <button class="button" id="copy-button" type="button" disabled>copy</button>
+        <button class="button primary" id="export-button" type="button" disabled>export</button>
         <label class="export-format" for="export-format">
           <select class="format-select" id="export-format" aria-label="Export format">
             <option value="image/png">.PNG</option>
@@ -22,31 +28,40 @@
         </label>
       </div>
     </header>
+
     <main class="workspace">
       <section class="stage" aria-label="Image preview">
-        <div class="stage-head"><span class="photo-name" id="photo-name">No image loaded</span><span class="photo-meta" id="photo-meta"></span></div>
+        <div class="stage-head">
+          <span class="photo-name" id="photo-name">no image loaded</span>
+          <span class="photo-meta" id="photo-meta"></span>
+        </div>
         <div class="canvas-wrap" id="drop-zone">
           <canvas id="preview" aria-label="Edited image preview"></canvas>
           <div class="empty-state" id="empty-state">
-            <h1>Drop a photo here or choose a file.</h1>
-            <p>Your images stay on this device.</p>
-            <button class="button" id="empty-open" type="button">Choose an image!</button>
+            <h1>drop a photo here or choose a file</h1>
+            <p>local & private. your images stay on your device.</p>
+            <button class="button" id="empty-open" type="button">choose image</button>
           </div>
         </div>
-        <div style="height: 1rem">  </div>
-      </section>
-      <aside class="controls" aria-label="Photo adjustments">
-        <div class="controls-head"><h2>Adjustments</h2><button class="text-button" id="reset-button" type="button">Reset all</button></div>
-        <section class="preset-panel" aria-label="Presets">
-          <div>
-            <h3>test preset or smth yeah</h3>
+        <div class="stage-foot">
+          <div class="stage-foot-left">
+            <button class="button compare-btn" id="compare-button" type="button" disabled title="hold to view original">hold to compare</button>
+            <span class="stage-hint" id="stage-hint">or hold space</span>
           </div>
-          <button class="button preset-button" id="apply-preset-button" type="button">Apply preset</button>
-        </section>
-        <div id="slider-groups"></div>
+          <span class="stage-scale" id="preview-note"></span>
+        </div>
+      </section>
+
+      <aside class="controls" aria-label="Controls">
+        <div class="presets-bar">
+          <span class="preset-label">presets</span>
+          <div class="preset-pills" id="preset-pills"></div>
+        </div>
+        <div id="controls-container"></div>
       </aside>
     </main>
   </div>
+
   <input id="file-input" type="file" accept="image/*">
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="script.js" defer></script>
