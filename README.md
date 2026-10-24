@@ -8,7 +8,7 @@
 
 <img width="100%" alt="logo of black empire" src="https://github.com/user-attachments/assets/9081a359-f4cb-4b23-a8a3-b8b272081d08" />
 
-<br><br>
+<br>
 
 <p align="center"><strong>https://black-empire.vercel.app/</strong></p><br>
 
