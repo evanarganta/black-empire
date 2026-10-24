@@ -6,13 +6,11 @@
   <br>​
 </p>
 
-<img width="100%" alt="logo of black empire" src="https://github.com/user-attachments/assets/9081a359-f4cb-4b23-a8a3-b8b272081d08" />
-
-<br>
-
-<p align="center"><strong>https://black-empire.vercel.app/</strong></p><br>
-
 <div align="center">
+
+### (godspeed you!) black empire
+
+<strong>https://black-empire.vercel.app/</strong><br><br>
   
 (Or, alternatively, clone and run `app/index.html` in your browser.)
 
